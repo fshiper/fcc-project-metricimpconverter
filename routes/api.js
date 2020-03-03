@@ -20,11 +20,13 @@ module.exports = function (app) {
       var input = req.query.input;
       var initNum = convertHandler.getNum(input);
       var initUnit = convertHandler.getUnit(input);
+      if (initUnit==='no unit') return res.json({error: 'no unit'})
       var returnNum = convertHandler.convert(initNum, initUnit);
+      if (typeof(returnNum)==='string') return res.json({error: returnNum})
       var returnUnit = convertHandler.getReturnUnit(initUnit);
       var toString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
       
-      //res.json
+      res.json(toString)
     });
     
 };
